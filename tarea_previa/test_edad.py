@@ -1,5 +1,9 @@
 from edad import es_mayor_de_edad
-
+import pytest
+ 
+@pytest.mark.parametrize("edad, esperado", [(17, False), (18, True), (19, True)])
+def test_frontera_de_edad(edad, esperado):
+    assert es_mayor_de_edad(edad) is esperado
 
 def test_adulto_claro():
     assert es_mayor_de_edad(30) is True
