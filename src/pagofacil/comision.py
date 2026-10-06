@@ -27,16 +27,17 @@ def validar_monto(monto):
 def calcular_comision(monto):
     """Comisión (en Q, con 2 decimales) que paga el cliente por transferir `monto`."""
     monto = validar_monto(monto)
-    if monto <= LIMITE_SIN_COMISION:
+    if monto <= LIMITE_SIN_COMISION:          # Defecto 1: era "<"
         comision = 0.0
     elif monto <= LIMITE_TARIFA_INTERMEDIA:
         comision = monto * TASA_INTERMEDIA
     else:
         comision = monto * TASA_REDUCIDA
+    comision = min(comision, TOPE_COMISION)   # Defecto 2: el tope no se aplicaba
     return round(comision, 2)
 
 
 def calcular_total(monto):
     """Total que se debita al cliente: monto + comisión (2 decimales)."""
     comision = calcular_comision(monto)
-    return round(monto +  comision, 2)
+    return round(monto + comision, 2)         # Defecto 3: era "monto - comision"
